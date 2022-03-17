@@ -1,0 +1,27 @@
+/* 
+    Docker-Compose with env 
+*/
+docker-compose --env-file ./config/.env.dev up 
+
+/* 
+    Nhớ khi chạy ở VPS đổi mapping port của nginx -> 80
+ */
+
+/* 
+    Dev : docker-compose -f ./dev.docker-compose.yaml up -d
+    Dev WSL2 : docker-compose -f ./dev.wsl2.docker-compose.yaml up -d
+*/
+
+/* 
+    == For Prod
+    Network : docker network create jungtin-academy-network
+    Base : docker-compose -p jta-base -f ./prod.base.docker-compose.yaml up -d
+    Server : docker-compose -p jta-server -f ./prod.server.docker-compose.yaml up -d
+*/
+
+/* 
+    == For Local Test
+    Network : docker network create jungtin-academy-network
+    Base : docker-compose -p jta-base -f ./local.base.docker-compose.yaml up -d
+    Server : docker-compose -p jta-server -f ./local.server.docker-compose.yaml up -d
+ */

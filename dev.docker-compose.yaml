@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+    mysqldb:
+        image: mysql:8.0
+        container_name: mysqldb_recruitmenthub
+        restart: always
+        expose:
+            - "3306"
+        ports:
+            - "3306:3306"
+        networks:
+            - rhub-network
+        volumes:
+            - "rhub_db_data:/var/lib/mysql"
+            - "./db/mysql_conf:/etc/mysql/conf.d"
+        env_file:
+            - "./conf/mysql.env"
+
+    myadmin:
+        image: phpmyadmin
+        container_name: myadmin_recruimenthub
+        restart: always
+        environment:
+            PMA_HOST: mysqldb
+            PWA_PORT: 3306
+            PWA_USER: root
+            PWA_PASSWORD: admin
+            UPLOAD_LIMIT: 50M
+        ports:
+            - "1001:80"
+        networks:
+            - rhub-network
+        depends_on:
+            - mysqldb
+
+volumes:
+    rhub_db_data: {}
+
+networks:
+  rhub-network:
+    external: false
+    name: rhub-network
