@@ -18,7 +18,7 @@ services:
 
     myadmin:
         image: phpmyadmin
-        container_name: myadmin_recruimenthub
+        container_name: myadmin_recruitmenthub
         restart: always
         environment:
             PMA_HOST: mysqldb
@@ -33,10 +33,28 @@ services:
         depends_on:
             - mysqldb
 
+    nodeserver:
+        build:
+            context: ./recruitment-hub
+            dockerfile: ../conf/server.dockerfile
+        image: recruitment-hub-image
+        container_name: nodeserver
+        restart: always
+        networks:
+            - rhub-network
+        env_file:
+            - "./conf/server.env"
+        expose:
+            - "8080"
+        ports:
+            - "8080:8080"
+        depends_on:
+            - mysqldb
+
 volumes:
     rhub_db_data: {}
 
 networks:
-  rhub-network:
-    external: false
-    name: rhub-network
+    rhub-network:
+        external: false
+        name: rhub-network
